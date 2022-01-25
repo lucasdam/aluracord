@@ -42,8 +42,8 @@ export default function PaginaInicial() {
             <Box
                 styleSheet={{
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    backgroundColor: appConfig.theme.colors.primary[500],
-                    backgroundImage: 'url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)',
+                    // backgroundColor: appConfig.theme.colors.primary[500],
+                    backgroundImage: 'url(https://wallpapercave.com/wp/wp5898128.jpg)',
                     backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
                 }}
             >
@@ -67,7 +67,6 @@ export default function PaginaInicial() {
                         as="form"
                         onSubmit={function (infosDoEvento) {
                             infosDoEvento.preventDefault();
-                            console.log('Alguém submeteu o form');
                             roteamento.push('/chat');
                             // window.location.href = '/chat';
                         }}
@@ -76,7 +75,7 @@ export default function PaginaInicial() {
                             width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
                         }}
                     >
-                        <Titulo tag="h2">Boas vindas de volta!</Titulo>
+                        <Titulo tag="h2">Seja bem-vindo(a)</Titulo>
                         <Text variant="body3" styleSheet={{ marginBottom: '32px', color: appConfig.theme.colors.neutrals[300] }}>
                             {appConfig.name}
                         </Text>
