@@ -1,23 +1,64 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import React from 'react';
 import appConfig from '../config.json';
+import { createClient } from '@supabase/supabase-js'
+
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzI5NDEwOCwiZXhwIjoxOTU4ODcwMTA4fQ.HB_T1cQ_yRsm6NmGouvnJ6tghzTi-PWgYvHtFqjCoYA';
+const SUPABASE_URL = 'https://ieriocguijpvwkmeagcv.supabase.co';
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+/* // Sem utilizar a lib @supabase/supabase-js
+fetch(`${SUPABASE_URL}/rest/v1/mensagens?select=*`, {
+    headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+    }
+})
+    .then((res) => {
+        return res.json();
+    })
+    .then((response) => {
+        console.log(response);
+    })
+*/
 
 export default function ChatPage() {
-    // Sua lógica vai aqui
     const [mensagem, setMensagem] = React.useState('');
     const [listaDeMensagens, setListaDeMensagens] = React.useState([]);
-    // ./Sua lógica vai aqui
+
+    React.useEffect(() => {
+        supabaseClient
+            .from('mensagens')
+            .select('*')
+            .order('id', { ascending: false })
+            .then(({ data }) => {
+                console.log('Dados da consulta: ', data);
+                setListaDeMensagens(data);
+            });
+    }, []);
 
     function handleNovaMensagem(novaMensagem) {
         const mensagem = {
-            id: listaDeMensagens.length + 1,
+            // id: listaDeMensagens.length + 1, // Usará o id gerado automaticamente pelo Supabase
             de: 'lucasdam',
             texto: novaMensagem,
         };
-        setListaDeMensagens([
-            mensagem,
-            ...listaDeMensagens,
-        ]);
+
+        supabaseClient
+            .from('mensagens')
+            .insert([
+                // Tem que ser um objeto com os MESMOS CAMPOS que foram escritos no Supabase
+                mensagem
+            ])
+            .then(({ data }) => {
+                console.log('Dados da consulta: ', data);
+                setListaDeMensagens([
+                    data[0],
+                    ...listaDeMensagens,
+                ]);
+            });
+
         setMensagem('');
     }
 
@@ -166,7 +207,7 @@ function MessageList(props) {
                                     display: 'inline-block',
                                     marginRight: '8px',
                                 }}
-                                src={`https://github.com/lucasdam.png`}
+                                src={`https://github.com/${mensagem.de}.png`}
                             />
                             <Text tag="strong">
                                 {mensagem.de}
