@@ -5,24 +5,10 @@ import { createClient } from '@supabase/supabase-js'
 import { useRouter } from 'next/router';
 import { ButtonSendSticker } from '../src/components/ButtonSendSticker'; 
 
-/* const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzI5NDEwOCwiZXhwIjoxOTU4ODcwMTA4fQ.HB_T1cQ_yRsm6NmGouvnJ6tghzTi-PWgYvHtFqjCoYA';
-const SUPABASE_URL = 'https://ieriocguijpvwkmeagcv.supabase.co'; */
-
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-/* export const getServerSideProps = async () => {
-    const { SUPABASE_AWON_KEY, SUPABASE_URL } = process.env;
-  
-    return {
-      props: {
-        SUPABASE_AWON_KEY,
-        SUPABASE_URL,
-      },
-    };
-}; */
 
 /* // Sem utilizar a lib @supabase/supabase-js
 fetch(`${SUPABASE_URL}/rest/v1/mensagens?select=*`, {
